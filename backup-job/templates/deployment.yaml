@@ -1,0 +1,22 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-job
+  labels: {{ include "common.labels" . | nindent 6 }}
+spec:
+  template:
+    metadata:
+      labels: {{ include "common.labels" . | nindent 10 }}
+    spec:
+      containers:
+        - name: {{ .Release.Name }}-container
+          image: {{ .Values.image.repository }}
+          args: {{ .Values.container.args | toJson }}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config
+      restartPolicy: Never
+      volumes:
+        - name: config-volume
+          configMap:
+            name: my-configmap

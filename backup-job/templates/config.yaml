@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: my-configmap
+data:
+  s3.conf: |
+    [credential]
+    AWS_ACCESS_KEY_ID=
+    AWS_SECRET_ACCESS_KEY=
+    [config]
+    S3_OBJECT_NAME=
+    S3_REGION_NAME=
+    S3_ENDPOINT_URL=

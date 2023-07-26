@@ -1,0 +1,26 @@
+name: Execute Backup Job
+
+on: workflow_dispatch
+
+jobs:
+  helm-install:
+    name: Helm install charts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Set up Kubernetes context
+        uses: azure/k8s-set-context@v3
+        with:
+          method: kubeconfig
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+        with:
+          version: "latest"
+      - name: Uninstall backup-job chart if installed
+        run: |
+          helm uninstall backup-job --namespace vex-dev || true
+      - name: Install backup-job chart
+        run: |
+          helm upgrade --install backup-job ./backup-job --namespace vex-dev

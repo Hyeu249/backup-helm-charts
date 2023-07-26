@@ -1,0 +1,19 @@
+image:
+  repository: backup-job
+  tag: latest
+
+container:
+  args:
+    - pg_backup
+    - -Fc
+    - -s3
+    - --host
+    - localhost
+    - -u
+    - hieu
+    - -p
+    - test
+    - -d
+    - whatsup
+    - -f
+    - whatsup.dump
